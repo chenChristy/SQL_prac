@@ -55,6 +55,7 @@ from login l1
 where l1.date =
 (select min(date) from login where user_id=l1.user_id)
 group by l1.date;
+//sql
 ```
 当这个日期，正好是这个用户登录的最小日期，而且用户id相同时，那么肯定就是这个日期登录的新用户。
 
@@ -70,6 +71,7 @@ where l1.date =
 (select min(date) from login where user_id=l1.user_id)
 group by l1.date) n1
 on login.date = n1.date
-group by login.date order by login.date
+group by login.date order by login.date;
+//sql
 ```
 
