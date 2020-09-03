@@ -71,13 +71,15 @@ left join
 from login l1
 where l1.date =
 (select min(date) from login where user_id=l1.user_id)
-group by l1.date) n1  /*可以选取出每日登录新用户不为0的日期和登录新用户数作为n1表*/
+group by l1.date) n1           /*可以选取出每日登录新用户不为0的日期和登录新用户数作为n1表*/
 
 on login.date = n1.date
+
 /*将login左连接n1表，由于n1表中已经是每日登录新用户不为0的日期和新用户数，
 因此，连接后login表中有n1表中日期的行，对应的该日登录新用户就是n1中的新用户数；
 而login中不在n1表中的日期的行，对应的该日登录新用户数均为null，
 同时select中ifnull()函数把null值变为0*/
+
 group by login.date 
 order by login.date;
 
