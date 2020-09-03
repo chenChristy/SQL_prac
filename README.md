@@ -11,8 +11,8 @@
 请你写出一个sql语句查询新登录用户次日成功的留存率，即**第1天登陆之后，第2天再次登陆的概率**,保存小数点后面3位(3位之后的四舍五入)<br>
 
 >四舍五入的函数为round<br>
->sqlite里查找某一天的后一天的用法是:date(yyyy-mm-dd, '+1 day')<br>
->sqlite 1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5)<br>
+>sqlite里**查找某一天的后一天**的用法是:**date(yyyy-mm-dd, '+1 day')**<br>
+>sqlite 1/2得到的不是0.5，得到的是0，只有`1*1.0/2`才会得到0.5)<br>
 
 ```
 select round(count(distinct b.user_id)*1.0/count(1), 3) as p
