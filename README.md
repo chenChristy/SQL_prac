@@ -86,3 +86,42 @@ order by login.date;
 //sql
 ```
 
+1.统计出现三次以上相同积分的情况（不同ID）
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/c69ac94335744480aa50646864b7f24d?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+有一积分(grade)表, id为用户主键id，number代表积分情况，让你写一个sql查询，积分表里面出现三次以及三次以上的积分
+
+
+>要三次以上的积分，那么肯定要查找3个id不同但是积分相同的情况<br>
+
+>>方法一：要三次以上的积分，那么肯定要查找3个id不同但是积分相同的情况，怎么比较一列和另外一列是否相等呢?在一个表里面感觉无法做到，那么最简单就是利用笛卡尔积了，1个表看成3个表，联立三个表number相同的部分.那么可能就是举例一种情况就是寻找第1个表id为1的111，寻找第2个表id为3的111，寻找第3个表id4为的111，那么就找到一个111，输出111
+但是上面这种找法可能会有重复的，比如第1个表id为3的111，寻找第2个表id为1的111，寻找第3个表id4为的111，那么又找到一个111，所以要去重。代码如下:
+```
+SELECT  DISTINCT g1.number AS times
+FROM
+    grade g1,
+    grade g2,
+    grade g3
+WHERE
+    g1.id != g2.id
+    AND g2.id != g3.id 
+    AND g1.id !=g3.id
+    AND g1.number = g2.number
+    AND g2.number = g3.number
+;
+
+
+//sql
+```
+
+
+>>方法二：使用group by 将积分分组，然后用having找到积分的个数大于等于3的:
+```
+select num from grade group by `number` having count(*)>=3
+
+//sql
+```
+
+
