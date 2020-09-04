@@ -207,9 +207,7 @@ order by s1.emp_no
 
 [题目链接](https://www.nowcoder.com/practice/5cdbf1dcbe8d4c689020b6b2743820bf?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
 
-给出emp_no、first_name、last_name、奖金类型btype、对应的当前薪水情况salary以及奖金金额bonus。<br>
-bonus类型btype为1其奖金为薪水salary的10%，btype为2其奖金为薪水的20%，其他类型均为薪水的30%。<br> 
-当前薪水表示to_date='9999-01-01'
+给出emp_no、first_name、last_name、奖金类型btype、对应的当前薪水情况salary以及奖金金额bonus。bonus类型btype为1其奖金为薪水salary的10%，btype为2其奖金为薪水的20%，其他类型均为薪水的30%。当前薪水表示to_date='9999-01-01'
 
 > Case... when...else... End用以不同情况的分类讨论
 
@@ -229,4 +227,55 @@ where s.to_date='9999-01-01'
 
 //sql
 ```
+
+
+8.使用含有关键字exists查找未分配具体部门的员工的所有信息。
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/c39cbfbd111a4d92b221acec1c7c1484?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+使用含有关键字exists查找未分配具体部门的员工的所有信息。
+```
+CREATE TABLE `employees` (
+`emp_no` int(11) NOT NULL,
+`birth_date` date NOT NULL,
+`first_name` varchar(14) NOT NULL,
+`last_name` varchar(16) NOT NULL,
+`gender` char(1) NOT NULL,
+`hire_date` date NOT NULL,
+PRIMARY KEY (`emp_no`));
+CREATE TABLE `dept_emp` (
+`emp_no` int(11) NOT NULL,
+`dept_no` char(4) NOT NULL,
+`from_date` date NOT NULL,
+`to_date` date NOT NULL,
+PRIMARY KEY (`emp_no`,`dept_no`));
+```
+
+> Exists的用法：exists对外表用loop逐条查询，每次查询都会查看exists的条件语句，当exists里的条件语句能够返回记录行时(无论记录行是的多少，只要能返回)，条件就为真，返回当前loop到的这条记录;反之如果exists里的条件语句不能返回记录行，则当前loop到的这条记录被丢弃，exists的条件就像一个bool条件，当能返回结果集则为true，不能返回结果集则为false
+>> 如果外表有n条记录，那么exists查询就是**将这n条记录逐条取出，然后判断n遍exists条件**
+
+
+>> 1. EXISTS  
+exists是先从主查询中取得一条数据，再代入到子查询中，执行一次子查询，判断子查询是否能返回结果，主查询有多少条数据，子查询就要执行多少次
+
+```
+SELECT *
+FROM employees
+WHERE NOT EXISTS (SELECT emp_no
+                 FROM dept_emp
+                 WHERE employees.emp_no = dept_emp.emp_no);
+```
+
+>> 2. IN
+in是先执行子查询，得到一个结果集，将结果集代入外层谓词条件执行主查询，子查询只需要执行一次
+
+```
+SELECT *
+FROM employees
+WHERE emp_no NOT IN (SELECT emp_no FROM dept_emp);
+
+//sql
+```
+
+
 
