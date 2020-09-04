@@ -96,7 +96,7 @@ order by login.date;
 
 >要三次以上的积分，那么肯定要查找3个id不同但是积分相同的情况<br>
 
->>方法一：要三次以上的积分，那么肯定要查找3个id不同但是积分相同的情况，怎么比较一列和另外一列是否相等呢?在一个表里面感觉无法做到，那么最简单就是利用笛卡尔积了，1个表看成3个表，联立三个表number相同的部分.那么可能就是举例一种情况就是寻找第1个表id为1的111，寻找第2个表id为3的111，寻找第3个表id4为的111，那么就找到一个111，输出111
+>>方法一：**要三次以上的积分，那么肯定要查找3个id不同但是积分相同的情况**，怎么比较一列和另外一列是否相等呢?在一个表里面感觉无法做到，那么最简单就是利用笛卡尔积了，1个表看成3个表，联立三个表number相同的部分.那么可能就是举例一种情况就是寻找第1个表id为1的111，寻找第2个表id为3的111，寻找第3个表id4为的111，那么就找到一个111，输出111
 但是上面这种找法可能会有重复的，比如第1个表id为3的111，寻找第2个表id为1的111，寻找第3个表id4为的111，那么又找到一个111，所以要去重。代码如下:
 ```
 SELECT  DISTINCT g1.number AS times
@@ -117,7 +117,7 @@ WHERE
 ```
 
 
->>方法二：使用group by 将积分分组，然后用having找到积分的个数大于等于3的:
+>>方法二：使用group by将积分分组，然后用having找到积分的个数大于等于3的:
 ```
 select num from grade group by `number` having count(*)>=3
 
@@ -163,6 +163,40 @@ where (
     select count(*)        /*利用count函数 排号*/
     from employees e2
     where e1.first_name>=e2.first_name)%2=1   /*取奇数*/
+
+//sql
+```
+
+
+6.统计salary的累计和running_total
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/58824cd644ea47d7b2b670c506a159a6?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+按照salary的累计和running_total，其中running_total为前N个当前( to_date = '9999-01-01')员工的salary累计和，其他以此类推。 
+```
+CREATE TABLE `salaries` ( `emp_no` int(11) NOT NULL,
+`salary` int(11) NOT NULL,
+`from_date` date NOT NULL,
+`to_date` date NOT NULL,
+PRIMARY KEY (`emp_no`,`from_date`));
+```
+
+难点在于：running_total为前 N个当前( to_date = '9999-01-01')员工的salary累计
+> 本题的思路为复用salaries表进行子查询，最后以 s1.emp_no 排序输出求和结果。
+>> 1、输出的第三个字段，是由一个SELECT子查询构成。将子查询内复用的salaries表记为s2，主查询的salaries表记为s1，当主查询的s1.emp_no确定时，对子查询中不大于s1.emp_no的s2.emp_no所对应的薪水求和
+>> 2、注意是**对员工当前的**薪水求和，所以在**主查询和子查询内都要加限定条件**to_date ='9999-01-01'
+
+```
+select s1.emp_no,s1.salary,
+   (select sum(s2.salary) 
+    from salaries s2
+    where s2.emp_no <= s1.emp_no
+    and s2.to_date='9999-01-01') as running_total
+
+from salaries s1
+where s1.to_date='9999-01-01'
+order by s1.emp_no
 
 //sql
 ```
