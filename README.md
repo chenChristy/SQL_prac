@@ -86,7 +86,7 @@ order by login.date;
 //sql
 ```
 
-1.统计出现三次以上相同积分的情况（不同ID）
+3.统计出现三次以上相同积分的情况（不同ID）
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/c69ac94335744480aa50646864b7f24d?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
@@ -127,10 +127,10 @@ select num from grade group by `number` having count(*)>=3
 
 
 
-1.统计新登录用户的次日成功留存率 【牛客网-每个人最近的登录日期（三）】
+4.统计刷题通过的题目排名
 -----------------------------------------------------------
 
-[题目链接](https://www.nowcoder.com/practice/16d41af206cd4066a06a3a0aa585ad3d?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+[题目链接](https://www.nowcoder.com/practice/cd2e10a588dc4c1db0407d0bf63394f3?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
 
 有一个通过题目个数的(passing_number)表，id是主键，如第1行表示id为1的用户通过了4个题目;请你根据上表，输出通过的题目的排名，通过题目个数相同的，排名相同，此时按照id升序排列，如id为5的用户通过了5个排名第1，id为1和id为6的都通过了2个，并列第2。
 
@@ -145,6 +145,27 @@ order by a.number desc, a.id asc;
 ```
 
 
+
+5.统计奇数行的first_name
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/e3cf1171f6cc426bac85fd4ffa786594?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+对于employees表中，输出first_name排名(按first_name升序排序)为奇数的first_name。
+
+> 1. 首先题目要求对first_name排序，所以子查询里有first_name的比较。
+> 2. 通过比较，如果 e1.first_name 是第一位，那 e2.first_name 只有1个，就是 e1.first_name 本身，1%2=1；如果 e1.first_name 排在第二位，就有它和比它小的2个 e2.first_name，2%2=0，所以不选，以此类推。
+
+```
+select e1.first_name
+from employees e1
+where (
+    select count(*)        /*利用count函数 排号*/
+    from employees e2
+    where e1.first_name>=e2.first_name)%2=1   /*取奇数*/
+
+//sql
+```
 
 
 
