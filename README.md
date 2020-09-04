@@ -255,8 +255,7 @@ PRIMARY KEY (`emp_no`,`dept_no`));
 >> 如果外表有n条记录，那么exists查询就是**将这n条记录逐条取出，然后判断n遍exists条件**
 
 
->> 1. EXISTS  
-exists是先从主查询中取得一条数据，再代入到子查询中，执行一次子查询，判断子查询是否能返回结果，主查询有多少条数据，子查询就要执行多少次
+1. EXISTS是先从主查询中取得一条数据，再代入到子查询中，执行一次子查询，判断子查询是否能返回结果，主查询有多少条数据，子查询就要执行多少次
 
 ```
 SELECT *
@@ -266,8 +265,7 @@ WHERE NOT EXISTS (SELECT emp_no
                  WHERE employees.emp_no = dept_emp.emp_no);
 ```
 
->> 2. IN
-in是先执行子查询，得到一个结果集，将结果集代入外层谓词条件执行主查询，子查询只需要执行一次
+2. IN是先执行子查询，得到一个结果集，将结果集代入外层谓词条件执行主查询，子查询只需要执行一次
 
 ```
 SELECT *
@@ -278,4 +276,20 @@ WHERE emp_no NOT IN (SELECT emp_no FROM dept_emp);
 ```
 
 
+8.获取Employees表中的first_name
+-----------------------------------------------------------
 
+[题目链接](https://www.nowcoder.com/practice/74d90728827e44e2864cce8b26882105?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列
+
+> substr(X,Y,Z) 或 substr(X,Y) 函数的使用。
+其中X是要截取的字符串。Y是字符串的**起始位置（注意第一个字符的位置为1，而不为0）**，取值范围是±(1~length(X))，当Y等于length(X)时，则截取最后一个字符；当Y等于负整数-n时，则从倒数第n个字符处截取。Z是要截取字符串的长度，取值范围是正整数，若Z省略，则从Y处一直截取到字符串末尾；若Z大于剩下的字符串长度，也是截取到字符串末尾为止。
+
+```
+select first_name
+from employees
+order by substr(first_name,-2,2);
+
+//sql
+```
