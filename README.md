@@ -125,3 +125,26 @@ select num from grade group by `number` having count(*)>=3
 ```
 
 
+
+
+1.统计新登录用户的次日成功留存率 【牛客网-每个人最近的登录日期（三）】
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/16d41af206cd4066a06a3a0aa585ad3d?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+有一个通过题目个数的(passing_number)表，id是主键，如第1行表示id为1的用户通过了4个题目;请你根据上表，输出通过的题目的排名，通过题目个数相同的，排名相同，此时按照id升序排列，如id为5的用户通过了5个排名第1，id为1和id为6的都通过了2个，并列第2。
+
+
+```
+select a.id, a.number, 
+(select count(distinct b.number) from passing_number b where b.number>= a.number) as rank
+from passing_number a
+order by a.number desc, a.id asc;
+
+//sql
+```
+
+
+
+
+
