@@ -184,7 +184,7 @@ PRIMARY KEY (`emp_no`,`from_date`));
 
 难点在于：running_total为前 N个当前( to_date = '9999-01-01')员工的salary累计
 > 本题的思路为复用salaries表进行子查询，最后以 s1.emp_no 排序输出求和结果。
->> 1、输出的第三个字段，是由一个SELECT子查询构成。将子查询内复用的salaries表记为s2，主查询的salaries表记为s1，当主查询的s1.emp_no确定时，对子查询中不大于s1.emp_no的s2.emp_no所对应的薪水求和
+>> 1、输出的第三个字段，是由一个SELECT子查询构成。将子查询内复用的salaries表记为s2，主查询的salaries表记为s1，当主查询的s1.emp_no确定时，对子查询中不大于s1.emp_no的s2.emp_no所对应的薪水求和<br>
 >> 2、注意是**对员工当前的**薪水求和，所以在**主查询和子查询内都要加限定条件**to_date ='9999-01-01'
 
 ```
@@ -202,4 +202,29 @@ order by s1.emp_no
 ```
 
 
+7.统计有奖金的员工发信息
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/5cdbf1dcbe8d4c689020b6b2743820bf?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+给出emp_no、first_name、last_name、奖金类型btype、对应的当前薪水情况salary以及奖金金额bonus。<br>bonus类型btype为1其奖金为薪水salary的10%，btype为2其奖金为薪水的20%，其他类型均为薪水的30%。 当前薪水表示to_date='9999-01-01'
+
+> Case... when...else... End用以不同情况的分类讨论
+
+```
+select e.emp_no, e.first_name, e.last_name, eb.btype, s.salary,
+(case eb.btype
+    when 1 then s.salary*0.1
+    when 2 then s.salary*0.2
+    else s.salary*0.3 end) as bonus
+
+from employees as e
+inner join emp_bonus as eb
+on e.emp_no=eb.emp_no
+inner join salaries s
+on e.emp_no=s.emp_no
+where s.to_date='9999-01-01'
+
+//sql
+```
 
