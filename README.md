@@ -416,3 +416,19 @@ order by name,score desc,id;
 
 //sql
 ```
+
+
+13.更新；将所有获取奖金的员工当前的薪水增加10%
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/d3b058dcc94147e09352eb76f93b3274?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+请你写出更新语句，将所有获取奖金的员工当前的(salaries.to_date='9999-01-01')薪水增加10%。(emp_bonus里面的emp_no都是当前获奖的所有员工)
+```
+update salaries
+set salary=salary*1.1
+where to_date='9999-01-01'
+and emp_no in (select emp_no from emp_bonus)
+
+//sql
+```
