@@ -408,10 +408,10 @@ select t.name,t.class,t.sroce,last_value(t.sroce) over(partition by t.class orde
 select id, name, score 
 from
 (select g.id, l.name, g.score,
-(dense_rank() over(partition by language_id order by score desc)) rn
+(dense_rank() over(partition by language_id order by score desc)) rn  /*不同语言的分组下，按成绩倒序排名，得到的id，语言名称，分数和降序排名*/
 from grade g join language l 
 on g.language_id = l.id) t 
-where rn<= 2
+where rn<= 2   /*排名中的前两位*/
 order by name,score desc,id;
 
 //sql
