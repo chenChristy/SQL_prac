@@ -308,7 +308,7 @@ select (length('10,A,B')-length(replace('10,A,B',',',''))) as cnt
 ```
 
 
-11.用||链接两个字符串
+11.用||连接两个字符串
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/355036f7f0c8429a85281f7ac05b457a?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
@@ -320,6 +320,18 @@ select (length('10,A,B')-length(replace('10,A,B',',',''))) as cnt
 select "select count(*) from "||name||";" as cnts 
 from sqlite_master
 where type='table';
+
+//sql
+```
+
+>> 用concat连接多个字符串
+
+按照dept_no进行汇总，属于同一个部门的emp_no按照逗号进行连接，结果给出dept_no以及连接出的结果employees.
+
+```
+select dept_no, group_concat(emp_no,",") as employees 
+from dept_emp
+group by dept_no
 
 //sql
 ```
@@ -447,7 +459,7 @@ where id = 5
 ```
 
 
-15.更新表格：将titles_test表名修改为titles_2017。
+15.更新表格：将titles_test表名修改为titles_2017
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/5277d7f92aa746ab8aa42886e5d570d4?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
