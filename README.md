@@ -308,18 +308,110 @@ select (length('10,A,B')-length(replace('10,A,B',',',''))) as cnt
 ```
 
 
-11.统计有奖金的员工发信息
+11.用||链接两个字符串
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/355036f7f0c8429a85281f7ac05b457a?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
 
 针对库中的所有表生成"select count(*)"对应的SQL语句，如数据库里有以下表，(注:在 SQLite 中用 “||” 符号连接字符串，无法使用concat函数)
->链接a和b,**a||b**
+>链接a和b两个字符串, 用**a||b**
 
 ```
 select "select count(*) from "||name||";" as cnts 
 from sqlite_master
 where type='table';
+
+//sql
+```
+
+
+12.统计考试前2分数的学生
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/b83f8b0e7e934d95a56c24f047260d91?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+每个用户笔试完有不同的分数，现在有一个分数(grade)表简化如下，如第1行表示用户id为1的选择了language_id为1岗位的最后考试完的分数为12000；
+请你找出每个岗位分数排名前2的用户，得到的结果先按照language的name升序排序，再按照积分降序排序，最后按照grade的id升序排序
+
+
+**解法1**
+
+```
+select g1.id, g1.name, g1.score
+from (grade gr
+join language l on gr.language_id=l.id)g1
+where (
+    select count(distinct g2.score)
+    from grade g2
+    where g2.score>=g1.score and g1.language_id=g2.language_id)<=2
+order by g1.name,g1.score desc ,g1.id;
+
+//sql 不使用特殊函数
+```
+
+**解法2**
+
+> 1、over函数的写法：<br>
+
+　　over（partition by class order by sroce） 按照sroce排序进行累计，order by是个默认的开窗函数，按照class分区。<br>
+
+> 2、开窗的窗口范围：<br>
+
+　　over（order by sroce range between 5 preceding and 5 following）：窗口范围为当前行数据幅度减5加5后的范围内的。<br>
+
+　　over（order by sroce rows between 5 preceding and 5 following）：窗口范围为当前行前后各移动5行。<br>
+  
+>> rank与over()的使用
+  
+  rank()和dense_rank()可以将所有的都查找出来，rank可以将并列第一名的都查找出来；
+  rank()和dense_rank()区别：rank()是跳跃排序，有两个第二名时接下来就是第四名;dense_rank()l是连续排序，有两个第二名时仍然跟着第三名
+
+求班级成绩排名：
+```
+select t.name,t.class,t.sroce,rank() over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
+```
+
+```
+select t.name,t.class,t.sroce,dense_rank() over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
+```
+
+>> sum()over()的使用
+根据班级进行分数求和
+
+```
+select t.name,t.class,t.sroce,sum(t.sroce) over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
+```
+
+>> first_value() over()和last_value() over()的使用 
+分别求出第一个和最后一个成绩。
+
+```
+select t.name,t.class,t.sroce,first_value(t.sroce) over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
+select t.name,t.class,t.sroce,last_value(t.sroce) over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
+```
+
+>> 常用的搭配
+　　count() over(partition by ... order by ...)：求分组后的总数。
+　　max() over(partition by ... order by ...)：求分组后的最大值。
+　　min() over(partition by ... order by ...)：求分组后的最小值。
+　　avg() over(partition by ... order by ...)：求分组后的平均值。
+　　lag() over(partition by ... order by ...)：取出前n行数据。　　
+
+　　lead() over(partition by ... order by ...)：取出后n行数据。
+
+　　ratio_to_report() over(partition by ... order by ...)：Ratio_to_report() 括号中就是分子，over() 括号中就是分母。
+
+　　percent_rank() over(partition by ... order by ...)：
+
+、、、
+select id, name, score 
+from
+(select g.id, l.name, g.score,
+(dense_rank() over(partition by language_id order by score desc)) rn
+from grade g join language l 
+on g.language_id = l.id) t 
+where rn<= 2
+order by name,score desc,id;
 
 //sql
 ```
