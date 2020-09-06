@@ -361,6 +361,8 @@ order by g1.name,g1.score desc ,g1.id;
 
 　　over（order by sroce rows between 5 preceding and 5 following）：窗口范围为当前行前后各移动5行。<br>
   
+  
+  
 * rank与over()的使用
   rank()和dense_rank()可以将所有的都查找出来，rank可以将并列第一名的都查找出来；<br>
   rank()和dense_rank()区别：rank()是跳跃排序，有两个第二名时接下来就是第四名;dense_rank()l是连续排序，有两个第二名时仍然跟着第三名
@@ -402,7 +404,7 @@ select t.name,t.class,t.sroce,last_value(t.sroce) over(partition by t.class orde
 ```
 
 **题解**
-、、、
+```
 select id, name, score 
 from
 (select g.id, l.name, g.score,
