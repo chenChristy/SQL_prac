@@ -276,7 +276,7 @@ WHERE emp_no NOT IN (SELECT emp_no FROM dept_emp);
 ```
 
 
-8.获取Employees表中的first_name
+9.获取Employees表中的first_name
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/74d90728827e44e2864cce8b26882105?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
@@ -290,6 +290,36 @@ WHERE emp_no NOT IN (SELECT emp_no FROM dept_emp);
 select first_name
 from employees
 order by substr(first_name,-2,2);
+
+//sql
+```
+
+10.统计有奖金的员工发信息
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/e3870bd5d6744109a902db43c105bd50?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+查找字符串'10,A,B' 中逗号','出现的次数cnt。
+
+```
+select (length('10,A,B')-length(replace('10,A,B',',',''))) as cnt
+
+//sql
+```
+
+
+11.统计有奖金的员工发信息
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/355036f7f0c8429a85281f7ac05b457a?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+针对库中的所有表生成"select count(*)"对应的SQL语句，如数据库里有以下表，(注:在 SQLite 中用 “||” 符号连接字符串，无法使用concat函数)
+>链接a和b,**a||b**
+
+```
+select "select count(*) from "||name||";" as cnts 
+from sqlite_master
+where type='table';
 
 //sql
 ```
