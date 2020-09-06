@@ -361,9 +361,8 @@ order by g1.name,g1.score desc ,g1.id;
 
 　　over（order by sroce rows between 5 preceding and 5 following）：窗口范围为当前行前后各移动5行。<br>
   
->> rank与over()的使用
-  
-  rank()和dense_rank()可以将所有的都查找出来，rank可以将并列第一名的都查找出来；
+* rank与over()的使用
+  rank()和dense_rank()可以将所有的都查找出来，rank可以将并列第一名的都查找出来；<br>
   rank()和dense_rank()区别：rank()是跳跃排序，有两个第二名时接下来就是第四名;dense_rank()l是连续排序，有两个第二名时仍然跟着第三名
 
 求班级成绩排名：
@@ -375,14 +374,14 @@ select t.name,t.class,t.sroce,rank() over(partition by t.class order by t.sroce 
 select t.name,t.class,t.sroce,dense_rank() over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
 ```
 
->> sum()over()的使用
+* sum()over()的使用
 根据班级进行分数求和
 
 ```
 select t.name,t.class,t.sroce,sum(t.sroce) over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
 ```
 
->> first_value() over()和last_value() over()的使用 
+* first_value() over()和last_value() over()的使用 
 分别求出第一个和最后一个成绩。
 
 ```
@@ -390,19 +389,19 @@ select t.name,t.class,t.sroce,first_value(t.sroce) over(partition by t.class ord
 select t.name,t.class,t.sroce,last_value(t.sroce) over(partition by t.class order by t.sroce desc) mm from T2_TEMP t;
 ```
 
->> 常用的搭配
-　　count() over(partition by ... order by ...)：求分组后的总数。
-　　max() over(partition by ... order by ...)：求分组后的最大值。
-　　min() over(partition by ... order by ...)：求分组后的最小值。
-　　avg() over(partition by ... order by ...)：求分组后的平均值。
-　　lag() over(partition by ... order by ...)：取出前n行数据。　　
+* 常用的搭配
+```
+　　count() over(partition by ... order by ...)：求分组后的总数。<br>
+　　max() over(partition by ... order by ...)：求分组后的最大值。<br>
+　　min() over(partition by ... order by ...)：求分组后的最小值。<br>
+　　avg() over(partition by ... order by ...)：求分组后的平均值。<br>
+　　lag() over(partition by ... order by ...)：取出前n行数据。　<br>　
+　　lead() over(partition by ... order by ...)：取出后n行数据。<br>
+　　ratio_to_report() over(partition by ... order by ...)：Ratio_to_report() 括号中就是分子，over() 括号中就是分母。<br>
+　　percent_rank() over(partition by ... order by ...)
+```
 
-　　lead() over(partition by ... order by ...)：取出后n行数据。
-
-　　ratio_to_report() over(partition by ... order by ...)：Ratio_to_report() 括号中就是分子，over() 括号中就是分母。
-
-　　percent_rank() over(partition by ... order by ...)：
-
+**题解**
 、、、
 select id, name, score 
 from
