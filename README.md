@@ -418,7 +418,7 @@ order by name,score desc,id;
 ```
 
 
-13.更新；将所有获取奖金的员工当前的薪水增加10%
+13.更新数据：将所有获取奖金的员工当前的薪水增加10%
 -----------------------------------------------------------
 
 [题目链接](https://www.nowcoder.com/practice/d3b058dcc94147e09352eb76f93b3274?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
@@ -432,3 +432,33 @@ and emp_no in (select emp_no from emp_bonus)
 
 //sql
 ```
+
+14. 更新数据：替换部分条件下的数据
+-----------------------------------------------------------
+[题目链接](https://www.nowcoder.com/practice/2bec4d94f525458ca3d0ebf3bc8cd240?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变，使用replace实现。
+```
+update titles_test 
+set emp_no = replace(emp_no,10001,10005) 
+where id = 5
+
+//sql
+```
+
+
+15.更新表格：将titles_test表名修改为titles_2017。
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/5277d7f92aa746ab8aa42886e5d570d4?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+```
+alter table titles_test rename to titles_2017;
+
+//sql
+```
+
+
+
+
+
