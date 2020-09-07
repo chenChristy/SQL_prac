@@ -1,4 +1,6 @@
 Hive SQL
+------------
+
 
 1. 有十万个淘宝店铺，每个顾客访问任意一个店铺时会生成一条访问日志，存储为表visit，其中访问用户ID的字段名称为uid,访问的店铺字段名称为store，请统计每个店铺的UV。
 uv(unique visitor)，指访问某个站点或点击某条新闻的不同IP地址的人数。
@@ -27,7 +29,6 @@ select stage_someone,count(distinct uid) as uids
 from lifeStage
   lateral view explode(split(stage,',')) lifeStage_tmp as stage_someone
 group by stage_someone;
-
 ```
 
 --和上一题相同的数据场景, 但是lifeStage中每行数据存储一个用户的人生阶段数据
@@ -38,5 +39,4 @@ group by stage_someone;
 select uid,concat_ws(',',collect_set(stage_someone)) as stage
 from lifestage_multline
 group by uid;
-
 ```
