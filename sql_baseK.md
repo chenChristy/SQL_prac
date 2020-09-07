@@ -4,7 +4,7 @@ SQL语言分类
 
 数据查询语言（DQL）：是由SELECT子句，FROM子句，WHERE子句组成的查询块<br>
 数据操纵语言（DML）: SELECT(查询) INSERT(插入) UPDATE(更新) DELETE(删除）<br>
-数据定义语言（DDL）：CREATE(创建数据库或表或索引）ALTER(修改表或者数据库）DROP(删除表或索引）<br>
+数据`定义`语言（DDL）：CREATE(创建数据库或表或索引）ALTER(修改表或者数据库）DROP(删除表或索引）<br>
 数据控制语言（DCL）：GRANT(赋予用户权限） REVOKE(收回权限） DENY(禁止权限)<br>
 事务控制语言（TCL）：SAVEPOINT (设置保存点）ROLLBACK (回滚) COMMIT(提交)<br>
 
@@ -27,3 +27,8 @@ Having子句的使用
 having字句即可包含聚合函数（avg,min,max)也可包含普通的标量字段<br>
 having字句必须与group by字句同时使用，`group by子句是限定分组条件的`，having是过滤分组的
 
+删除
+-----
+1. drop是完全删除表，包括表结构 `DROP TABLE table_name`<br>
+2. delete是删除表数据，保留表的结构，而且可以加where,只删除一行或者多行  `DELETE FROM table_name` <br>
+3. truncate 只能删除表数据，会保留表结构，而且不能加where
