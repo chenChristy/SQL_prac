@@ -54,7 +54,7 @@ SUM(CASE WHEN c > 1 THEN 1 ELSE 0 END) c
 FROM test1;
 ```
 
-[题目](https://img-bbs.csdn.net/upload/201803/09/1520591882_528248.png)
+![题目](https://img-bbs.csdn.net/upload/201803/09/1520591882_528248.png)
 
 ```
 select faddr.city_name as '一级地区' ,saddr.city_name as '二级地区',taddr.city_name as '三级地区' from CITY a 
