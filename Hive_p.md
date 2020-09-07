@@ -40,3 +40,32 @@ select uid,concat_ws(',',collect_set(stage_someone)) as stage
 from lifestage_multline
 group by uid;
 ```
+
+
+
+统计a,b,c三列大于1的个数
+----------------------
+
+```
+SELECT 
+SUM(CASE WHEN a > 1 THEN 1 ELSE 0 END) a, 
+SUM(CASE WHEN b > 1 THEN 1 ELSE 0 END) b, 
+SUM(CASE WHEN c > 1 THEN 1 ELSE 0 END) c 
+FROM test1;
+```
+
+[题目](https://img-bbs.csdn.net/upload/201803/09/1520591882_528248.png)
+
+```
+select faddr.city_name as '一级地区' ,saddr.city_name as '二级地区',taddr.city_name as '三级地区' from CITY a 
+join (SELECT City_Id,City_Name,City_ParentId 
+      from CITY) faddr 
+      on a.City_Id=faddr.City_Id
+join (SELECT City_Id,City_Name,City_ParentId 
+      from CITY) saddr
+      on faddr.City_Id=saddr.City_ParentId
+join (SELECT City_Id,City_Name,City_ParentId 
+      from CITY) taddr
+      on saddr.City_Id=taddr.City_ParentId
+
+ ```
