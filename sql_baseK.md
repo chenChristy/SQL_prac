@@ -28,7 +28,16 @@ having字句即可包含聚合函数（avg,min,max)也可包含普通的标量�
 having字句必须与group by字句同时使用，`group by子句是限定分组条件的`，having是过滤分组的
 
 删除
------
+------
+处理效率：drop>trustcate>delete  <br>
 1. drop是完全删除表，包括表结构 `DROP TABLE table_name`<br>
 2. delete是删除表数据，保留表的结构，而且可以加where,只删除一行或者多行  `DELETE FROM table_name` <br>
-3. truncate 只能删除表数据，会保留表结构，而且不能加where
+3. truncate只能删除表数据，会保留表结构，而且不能加where；truncate将直接删除原来的表，并重新创建一个表
+
+
+修改
+------
+change:用来修改字段名字以及类型 <br>
+modify:用来修改字段类型<br>
+aiter column ... set:用来修改字段数据; 修改表的某字段的缺省值：alter table 表名 alter column 字段名 set default 默认值;
+
