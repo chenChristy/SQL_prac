@@ -22,7 +22,7 @@ order by age desc, total;
 考点：列转行
 --考察点: lateral view使用, explode函数
 
-、、、
+```
 select stage_someone,count(distinct uid) as uids
 from lifeStage
   lateral view explode(split(stage,',')) lifeStage_tmp as stage_someone
