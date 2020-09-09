@@ -471,6 +471,39 @@ alter table titles_test rename to titles_2017;
 ```
 
 
+16.根据字段创建索引
+-----------------------------------------------------------
+
+[题目链接](https://www.nowcoder.com/practice/f9fa9dc1a1fc4130b08e26c22c7a1e5f?tpId=82&tags=&title=&diffculty=0&judgeStatus=0&rp=1)
+
+针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。
+```
+CREATE TABLE `salaries` (
+`emp_no` int(11) NOT NULL,
+`salary` int(11) NOT NULL,
+`from_date` date NOT NULL,
+`to_date` date NOT NULL,
+PRIMARY KEY (`emp_no`,`from_date`));
+create index idx_emp_no on salaries(emp_no);
+```
+
+
+sqlite使用索引查询的语法为
+```
+SELECT|DELETE|UPDATE column1, column2...
+INDEXED BY (index_name)
+table_name
+WHERE (CONDITION);
+```
+它可以与 DELETE、UPDATE 或 SELECT 语句一起使用。
+"INDEXED BY index-name" 子句规定必须用命名的索引来查找前面表中值，如果索引名 index-name 不存在或不能用于查询，SQLite 语句的查询失败。
+
+
+```
+SELECT * FROM salaries INDEXED BY idx_emp_no WHERE emp_no = 10005
+
+//sql
+```
 
 
 
