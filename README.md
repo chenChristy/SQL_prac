@@ -506,4 +506,15 @@ SELECT * FROM salaries INDEXED BY idx_emp_no WHERE emp_no = 10005
 ```
 
 
+17.查询各班成绩排名第二的同学的成绩平均值
+-----------------------------------
 
+```
+select avg(t. score)
+from(
+select*, dense_rank() over (partition by class order by score) as s_rank
+from student ) t
+where t.s_rank = 2;
+
+//sql
+```
